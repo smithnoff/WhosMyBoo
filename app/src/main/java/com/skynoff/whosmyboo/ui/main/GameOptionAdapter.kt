@@ -36,7 +36,6 @@ class GameOptionAdapter(private val context: Context, list: List<GameOption>) :
                     "goToCrush" -> {
                         it.findNavController().navigate(R.id.action_mainFragment_to_gamesFragment)
                     }
-
                 }
             }
         }

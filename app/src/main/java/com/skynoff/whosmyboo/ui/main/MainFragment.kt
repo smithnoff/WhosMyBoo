@@ -10,15 +10,11 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.GridLayoutManager
 import com.skynoff.whosmyboo.R
 import kotlinx.android.synthetic.main.main_fragment.*
+import org.koin.android.ext.android.inject
 
 class MainFragment : Fragment() {
 
-    companion object {
-        fun newInstance() = MainFragment()
-    }
-
-    private lateinit var viewModel: MainViewModel
-
+    private val viewModel by inject<MainViewModel>()
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -28,11 +24,11 @@ class MainFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProviders.of(this).get(MainViewModel::class.java)
-        viewModel.getDummyGameList()
-        recycler_game_options.layoutManager = GridLayoutManager(context,2)
-        viewModel.gameList.observe(this, Observer {gameList ->
-            recycler_game_options.adapter = GameOptionAdapter(context!!,gameList )
+        viewModel.getGameList()
+        recycler_game_options.layoutManager = GridLayoutManager(context, 2)
+
+        viewModel.gameList.observe(this, Observer { gameList ->
+            recycler_game_options.adapter = GameOptionAdapter(context!!, gameList)
             recycler_game_options.adapter?.notifyDataSetChanged()
         })
     }
